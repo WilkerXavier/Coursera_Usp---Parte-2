@@ -1,14 +1,18 @@
 import OrdenadorDeSelecaoDireta
 import OrdenadorBubbleSort
+import OrdenadorBubbleSortMelhorDesempenho
 import random
 import time
 
 class ContaTempos:
     def lista_aleatoria(self, n):
-        lista = [0 for x in range(n)]
-        for i in range(n):
-            lista[i] = random.randrange(1000) #inteiros entre 0 e 999
+        lista = [random.randrange(1000) for x in range(n)]
         return lista
+
+    def lista_quase_ordenada(self, n):
+        lista = [x for x in range(n)]
+        lista[n//10] = -500
+        return lista 
 
     def compara(self, n):
         lista1 = self.lista_aleatoria(n)
@@ -17,13 +21,29 @@ class ContaTempos:
         ob = ordenadorBubbleSort.OrdenadorBubbleSort()
         os = ordenadorDeSelecaoDireta.OrdenadorDeSelecaoDireta()
 
-
+        print("Comparando com listas alearórias")
         antes = time.time()
-        ob.bolha(lista1)
+        ob.bolha_curta(lista1)
         depois = time.time()
-        print("Bolha demorou ", depois - antes)
+        print("Bolha curta demorou ", depois - antes)
 
         antes = time.time()
         os.selecao_direta(lista2)
         depois = time.time()
         print("Seleção Direta demorou ", depois - antes)
+
+        print("Comparando com listas quase ordenadas")
+
+        lista1 = self.lista_quase_ordenada(n)
+        lista2 = lista1[:]
+        
+        antes = time.time()
+        ob.bolha_curta(lista1)
+        depois = time.time()
+        print("Bolha curta demorou ", depois - antes)
+
+        antes = time.time()
+        os.selecao_direta(lista2)
+        depois = time.time()
+        print("Seleção Direta demorou ", depois - antes)
+
